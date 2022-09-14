@@ -56,5 +56,3 @@ def strict_border_array(x: str) -> list[int]:
             index_match = 0
         border_list.append(index_match)
     return border_list
-
-print(strict_border_array(""))
