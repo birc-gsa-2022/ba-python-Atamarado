@@ -12,7 +12,15 @@ def border_array(x: str) -> list[int]:
     >>> border_array("")
     []
     """
-    return []  # FIXME
+    border_list = [0]
+    index_match = 0
+    for c in x[1:]:
+        if c==x[index_match]:
+            index_match += 1
+        else:
+            index_match = 0
+        border_list.append(index_match)
+    return border_list
 
 
 def strict_border_array(x: str) -> list[int]:
@@ -35,3 +43,5 @@ def strict_border_array(x: str) -> list[int]:
     []
     """
     return []  # FIXME
+
+print(border_array("ississippi"))
