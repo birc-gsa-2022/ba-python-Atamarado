@@ -12,6 +12,8 @@ def border_array(x: str) -> list[int]:
     >>> border_array("")
     []
     """
+    if x=="":
+        return []
     border_list = [0]
     index_match = 0
     for c in x[1:]:
@@ -27,7 +29,7 @@ def strict_border_array(x: str) -> list[int]:
     """
     Construct the strict border array for x.
 
-    A struct border array is one where the border cannot
+    A strict border array is one where the border cannot
     match on the next character. If b is the length of the
     longest border for x[:i+1], it means x[:b] == x[i-b:i+1],
     but for a strict border, it must be the longest border
@@ -42,6 +44,17 @@ def strict_border_array(x: str) -> list[int]:
     >>> strict_border_array("")
     []
     """
-    return []  # FIXME
+    if x=="":
+        return []
+    border_list = [0]
+    index_match = 0
+    for c in x[1:]:
+        if c==x[index_match]:
+            border_list[len(border_list)-1] = 0
+            index_match += 1
+        else:
+            index_match = 0
+        border_list.append(index_match)
+    return border_list
 
-print(border_array("ississippi"))
+print(strict_border_array(""))
