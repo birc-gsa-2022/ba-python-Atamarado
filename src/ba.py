@@ -19,6 +19,8 @@ def border_array(x: str) -> list[int]:
     for c in x[1:]:
         if c==x[index_match]:
             index_match += 1
+        elif c==x[0]:
+            index_match = 1
         else:
             index_match = 0
         border_list.append(index_match)
@@ -52,6 +54,8 @@ def strict_border_array(x: str) -> list[int]:
         if c==x[index_match]:
             border_list[len(border_list)-1] = 0
             index_match += 1
+        elif c==x[0]:
+            index_match = 1
         else:
             index_match = 0
         border_list.append(index_match)
