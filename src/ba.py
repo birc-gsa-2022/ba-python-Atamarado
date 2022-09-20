@@ -11,6 +11,8 @@ def border_array(x: str) -> list[int]:
     [0, 0, 0, 1, 2, 3, 4, 0, 0, 1]
     >>> border_array("")
     []
+    >>> strict_border_array("abaabaa")
+    [0, 0, 1, 1, 2, 3, 4]
     """
     if x=="":
         return []
@@ -45,18 +47,21 @@ def strict_border_array(x: str) -> list[int]:
     [0, 0, 0, 0, 0, 0, 4, 0, 0, 1]
     >>> strict_border_array("")
     []
+    >>> strict_border_array("abaabaa")
+    [0, 0, 1, 0, 0, 1, 4]
     """
-    if x=="":
-        return []
-    border_list = [0]
-    index_match = 0
-    for c in x[1:]:
-        if c==x[index_match]:
-            border_list[len(border_list)-1] = 0
-            index_match += 1
-        elif c==x[0]:
-            index_match = 1
+    ba = border_array(x)
+    bax = [0 for _ in x]
+
+    for i, bai in enumerate(ba[:len(ba)-1]):
+        if bai == 0:
+            bax[i] = 0
+        elif x[i+1] != x[bai]:
+            bax[i] = bai
         else:
-            index_match = 0
-        border_list.append(index_match)
-    return border_list
+            bax[i] = bax[bai-1]
+    
+    bax.append(ba[len(ba)-1])
+    return bax
+
+print(strict_border_array("abaabaa"))
