@@ -11,21 +11,37 @@ def border_array(x: str) -> list[int]:
     [0, 0, 0, 1, 2, 3, 4, 0, 0, 1]
     >>> border_array("")
     []
-    >>> strict_border_array("abaabaa")
+    >>> border_array("abaabaa")
     [0, 0, 1, 1, 2, 3, 4]
+    >>> border_array("abcabdabcabc")
+    [0, 0, 0, 1, 2, 0, 1, 2, 3, 4, 5, 3]
     """
     if x=="":
         return []
-    border_list = [0]
+    border_list = [0 for _ in x]
     index_match = 0
-    for c in x[1:]:
+    for i, c in enumerate(x[1:]):
         if c==x[index_match]:
             index_match += 1
-        elif c==x[0]:
-            index_match = 1
         else:
-            index_match = 0
-        border_list.append(index_match)
+            # See if we have another border inside the main one
+            inner_border = 0
+            start_inner_border = -1
+            j = i+1-index_match+1 # We start looking from the second character of the border
+            while j<i+2:
+                if x[j] == x[inner_border]:
+                    if inner_border == 0:
+                        start_inner_border = j
+                    inner_border += 1
+                else:
+                    if inner_border > 0:
+                        j = start_inner_border
+                        inner_border = 0
+                j += 1
+            
+            index_match = inner_border
+                
+        border_list[i+1] = index_match
     return border_list
 
 
@@ -49,6 +65,8 @@ def strict_border_array(x: str) -> list[int]:
     []
     >>> strict_border_array("abaabaa")
     [0, 0, 1, 0, 0, 1, 4]
+    >>> strict_border_array("abcabdabcabc")
+    [0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 5, 3]
     """
     ba = border_array(x)
     bax = [0 for _ in x]
@@ -61,7 +79,7 @@ def strict_border_array(x: str) -> list[int]:
         else:
             bax[i] = bax[bai-1]
     
-    bax.append(ba[len(ba)-1])
+    bax[len(ba)-1] = ba[len(ba)-1]
     return bax
 
-print(strict_border_array("abaabaa"))
+print(strict_border_array("abcabdabcabc"))
