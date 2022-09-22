@@ -19,29 +19,18 @@ def border_array(x: str) -> list[int]:
     if x=="":
         return []
     border_list = [0 for _ in x]
-    index_match = 0
-    for i, c in enumerate(x[1:]):
-        if c==x[index_match]:
-            index_match += 1
-        else:
-            # See if we have another border inside the main one
-            inner_border = 0
-            start_inner_border = -1
-            j = i+1-index_match+1 # We start looking from the second character of the border
-            while j<i+2:
-                if x[j] == x[inner_border]:
-                    if inner_border == 0:
-                        start_inner_border = j
-                    inner_border += 1
-                else:
-                    if inner_border > 0:
-                        j = start_inner_border
-                        inner_border = 0
-                j += 1
-            
-            index_match = inner_border
-                
-        border_list[i+1] = index_match
+    for i, c in enumerate(x):
+        border_index = i
+        while True:
+            if border_index == 0:
+                # border_list[i] = 0 # The list was initialized with zeros
+                break
+            previousBorder = border_list[border_index-1]
+            if c == x[previousBorder]:
+                border_list[i] = previousBorder+1
+                break
+            # We go backwards throughout the border
+            border_index = previousBorder
     return border_list
 
 
@@ -82,4 +71,4 @@ def strict_border_array(x: str) -> list[int]:
     bax[len(ba)-1] = ba[len(ba)-1]
     return bax
 
-print(strict_border_array("abcabdabcabc"))
+print(border_array("abcabdabcabc"))
